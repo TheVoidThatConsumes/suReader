@@ -4,7 +4,7 @@ EVE Analyzer - A CLI tool for analyzing Suricata EVE JSON alert logs.
 
 Usage:
     python main.py summary elogs/(filename).json
-    python main.py top-ips elogs/(filename).json --n 10
+    python main.py top-ips elogs/(filename).json --count 10
     python main.py suspicious elogs/(filename).json
     python main.py search elogs/(filename).json --ip (IP_ADDRESS)
     python main.py report elogs/(filename).json --export
@@ -294,12 +294,8 @@ def format_suspicious(data):
 
 
 def format_search_results(results):
-    lines = []
-    lines.append("=" * 60)
-    count = 0
     rows = []
     for event in results:
-        count += 1
         sig      = event.get("alert", {}).get("signature", "Unknown signature")
         severity = event.get("alert", {}).get("severity", "?")
         rows.append(
@@ -308,7 +304,9 @@ def format_search_results(results):
             f"{event.get('dest_ip', '?')}:{event.get('dest_port', '?')} "
             f"[{event.get('proto', '?')}] (severity {severity}) {sig}"
         )
-    lines.append(f"SEARCH RESULTS ({count} matches)")
+    lines = []
+    lines.append("=" * 60)
+    lines.append(f"SEARCH RESULTS ({len(rows)} matches)")  # count known now
     lines.append("=" * 60)
     lines.extend(rows)
     return lines
@@ -357,7 +355,7 @@ def main():
 
     p_top = subparsers.add_parser("top-ips", help="Show top source/destination IPs")
     p_top.add_argument("log_file")
-    p_top.add_argument("--n", type=int, default=10)
+    p_top.add_argument("--count", type=int, default=10)
     p_top.add_argument("--export", nargs="?", const=True, metavar="FILENAME", help=export_help)
 
     p_suspicious = subparsers.add_parser("suspicious", help="Flag suspicious activity")
@@ -389,12 +387,13 @@ def main():
 
     if data["total"] == 0:
         print("[!] No alert events found in log file.", file=sys.stderr)
+        sys.exit(1)
 
     if args.command == "summary":
         output_lines(format_summary(data), args.export)
 
     elif args.command == "top-ips":
-        output_lines(format_top_ips(data, n=args.n), args.export)
+        output_lines(format_top_ips(data, n=args.count), args.export)
 
     elif args.command == "suspicious":
         output_lines(format_suspicious(data), args.export)
