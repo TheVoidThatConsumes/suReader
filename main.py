@@ -3,11 +3,11 @@
 EVE Analyzer - A CLI tool for analyzing Suricata EVE JSON alert logs.
 
 Usage:
-    python main.py summary elogs/eve.json
-    python main.py top-ips elogs/eve.json --n 10
-    python main.py suspicious elogs/eve.json
-    python main.py search elogs/eve.json --ip 192.168.1.50
-    python main.py report elogs/eve.json --export
+    python main.py summary elogs/(filename).json
+    python main.py top-ips elogs/(filename).json --n 10
+    python main.py suspicious elogs/(filename).json
+    python main.py search elogs/(filename).json --ip (IP_ADDRESS)
+    python main.py report elogs/(filename).json --export
 """
 
 import argparse
