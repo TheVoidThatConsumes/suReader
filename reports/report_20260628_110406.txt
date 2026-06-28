@@ -1,0 +1,74 @@
+============================================================
+EVE LOG SUMMARY
+============================================================
+Total alerts: 254
+
+Severity breakdown:
+  Medium (2): 253
+  Low (3): 1
+
+Top 10 alert signatures:
+  [ 102] ET DROP Dshield Block Listed Source group 1
+  [  38] ET SCAN Suspicious inbound to MSSQL port 1433
+  [  15] ET SCAN Sipvicious Scan
+  [  10] ET SCAN Suspicious inbound to mySQL port 3306
+  [   8] ET SCAN Suspicious inbound to PostgreSQL port 5432
+  [   8] ET SCAN Suspicious inbound to Oracle SQL port 1521
+  [   8] ET CINS Active Threat Intelligence Poor Reputation IP TCP group 94
+  [   7] ET SCAN Potential VNC Scan 5900-5920
+  [   7] ET SCAN Potential VNC Scan 5800-5820
+  [   7] ET SCAN Sipvicious User-Agent Detected (friendly-scanner)
+
+Protocols seen:
+  TCP: 225
+  UDP: 29
+
+Top 10 targeted destination ports:
+  Port 1433: 41
+  Port 5060: 24
+  Port 3306: 11
+  Port 5432: 8
+  Port 1521: 8
+  Port 22: 8
+  Port 23: 7
+  Port 80: 4
+  Port 5801: 3
+  Port 58800: 3
+
+Alert timeline (per hour):
+  unknown: 254
+
+============================================================
+TOP 10 SOURCE / DESTINATION IPs
+============================================================
+Top source IPs (most alerts triggered):
+  [  52] 8.42.77.171
+  [   6] 92.63.194.33
+  [   6] 37.49.231.178
+  [   6] 185.53.91.55
+  [   4] 194.28.115.243
+  [   3] 61.176.222.167
+  [   3] 80.211.246.121
+  [   3] 185.176.27.6
+  [   3] 43.227.231.129
+  [   3] 194.28.115.245
+
+Top destination IPs (most alerts received):
+  [ 253] 138.68.3.71
+  [   1] 198.199.99.226
+
+============================================================
+SUSPICIOUS ACTIVITY FINDINGS
+============================================================
+[Possible port scan]
+  Source IP : 8.42.77.171
+  Detail    : Hit 15 distinct destination ports
+
+[Possible brute-force / repeated probing]
+  Source IP : 8.42.77.171
+  Detail    : Triggered "ET SCAN Suspicious inbound to mySQL port 3306" 8 times
+
+[Broad alert diversity (possible automated scanner)]
+  Source IP : 8.42.77.171
+  Detail    : Triggered 7 different alert types (52 alerts total)
+
