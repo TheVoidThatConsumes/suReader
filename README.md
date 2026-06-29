@@ -1,82 +1,188 @@
-# suReader
+# SuReader
 
-EVE Analyzer (suReader) — a small CLI tool to analyze Suricata EVE JSON alert logs and produce human-readable reports for quick incident analysis and SIEM ingestion. Designed as a compact, streaming analyzer for very large Suricata JSON files (no full-file memory load).
+A command-line tool for analysing Suricata EVE JSON alert logs.
 
-Features
-- Single-pass streaming analysis (low memory) of Suricata EVE JSON alert logs
-- Summaries: top signatures, protocol and port counts, severity breakdown, hourly timeline
-- Top IPs report (source / destination)
-- Simple heuristics to flag suspicious activity (port scans, repeated signatures, diverse scanners)
-- Search mode to filter events by IP or signature keyword
-- Exportable text reports into `reports/` folder
+Designed to handle large log files (700MB+) efficiently using a streaming
+architecture — the file is read once and never fully loaded into memory.
 
-Quick start
+---
 
-- Requirements: Python 3.8+ (no external dependencies required)
-- Clone the repo and run the CLI from the repository root:
+## What it does
 
-```bash
-git clone https://github.com/TheVoidThatConsumes/suReader.git
-cd suReader
-python main.py summary elogs/<your-eve-file>.json
+| Command | What it shows |
+|---|---|
+| `summary` | Total alerts, severity breakdown, top signatures, protocols, ports, hourly timeline |
+| `top-ips` | Top source and destination IPs by alert count |
+| `suspicious` | IPs flagged for port scanning, brute-force, or automated scanning behaviour |
+| `search` | Filter alerts by IP address or signature keyword |
+| `report` | Full combined output of all three analysis views |
+
+All commands support `--export` to save the output as a `.txt` file in the `reports/` folder.
+
+---
+
+## Requirements
+
+- Python 3.10 or higher
+- No external dependencies — standard library only
+
+---
+
+## Setup
+
+1. Clone or download this repository
+2. Two demo log files are already included in the `elogs/` folder:
+   - `elogs/honeypot.json` — real honeypot traffic captures
+   - `elogs/conference.json` — network traffic from a security conference
+3. Run any command directly with Python — no install needed
+
+```
+elogs/
+  honeypot.json      ← included demo file
+  conference.json    ← included demo file
+reports/             ← exported reports saved here automatically
+main.py
+README.md
 ```
 
-Usage examples
-- Summary (overall alert stats)
+---
+
+## Usage
 
 ```bash
-python main.py summary elogs/honeypot.json
-```
-
-- Top IPs (show top 10 by default)
-
-```bash
-python main.py top-ips elogs/conference.json --count 20
-```
-
-- Suspicious activity (heuristics)
-
-```bash
+# try it immediately with the included demo files
+python main.py summary    elogs/honeypot.json
+python main.py top-ips    elogs/conference.json --count 10
 python main.py suspicious elogs/honeypot.json
+python main.py search     elogs/honeypot.json --ip 192.168.1.5
+python main.py search     elogs/conference.json --signature "ET SCAN"
+python main.py report     elogs/honeypot.json
 ```
 
-- Search for alerts by IP or signature keyword
+### Exporting reports
 
 ```bash
-python main.py search elogs/honeypot.json --ip 10.0.0.5
-python main.py search elogs/honeypot.json --signature "sql injection"
-```
+# auto-named with timestamp
+python main.py summary elogs/honeypot.json --export
 
-- Export a report to `reports/` (auto-named or specify filename)
-
-```bash
-python main.py report elogs/honeypot.json --export
+# custom filename
 python main.py summary elogs/honeypot.json --export my_summary.txt
+
+# full report exported
+python main.py report elogs/honeypot.json --export full_report.txt
 ```
 
-Repository layout
-- `main.py`: CLI entrypoint and analyzer implementation
-- `elogs/`: example or sample EVE JSON files (this repo already includes two demo files: `honeypot.json` and `conference.json`)
-- `reports/`: output folder for exported text reports
+Reports are always saved to the `reports/` folder, which is created
+automatically if it does not exist.
 
-Demo files & where to find more
-- This repository already contains two small demo EVE JSON files in the `elogs/` folder to try the tool quickly.
-- Need more EVE JSON logs? Helpful resources:
-	- Suricata EVE JSON format documentation: https://suricata.readthedocs.io/en/latest/output/eve/eve-json-format.html
-	- Suricata project homepage: https://suricata.io/
-	- Search public repos for `eve.json` on GitHub: https://github.com/search?q=eve.json&type=code
+---
 
-Notes and recommendations
-- The tool streams input and tolerates broken/partial JSON lines; it only processes events where `event_type` == `alert`.
-- For very large EVE logs the script uses an 8MB read buffer to reduce I/O syscalls and keep memory usage low.
-- Thresholds used by the suspicious-activity heuristics are conservative and tunable inside `main.py`.
+## Using your own log files
 
-Contributing
-- Suggestions, bug reports and small improvements are welcome. Open an issue or submit a PR.
+Place any Suricata EVE JSON log file in the `elogs/` folder and run the
+same commands against it.
 
-License
-- This repository does not include an explicit license file. If you want to share this code publicly, consider adding a `LICENSE` file.
+If you do not have a Suricata instance running, you can use the following sources
+provide real EVE JSON logs for analysis and research:
 
-Author: David Obi
-- Personal Cybersecurity portfolio project — 2026
+- **Malware Traffic Analysis** — real packet captures with EVE logs from malware infections
+  https://www.malware-traffic-analysis.net
 
+- **PCAP samples with Suricata output** — community-maintained collection of network captures
+  https://www.netresec.com/?page=PcapFiles
+
+- **Evebox sample datasets** — EVE JSON files shared alongside the Evebox SIEM project
+  https://github.com/jasonish/evebox
+
+- **Suricata documentation test files** — official sample logs from the Suricata project
+  https://suricata.io/download
+
+- **SecurityOnion sample data** — EVE JSON logs included with the SecurityOnion distribution
+  https://securityonionsolutions.com
+
+To generate your own EVE logs, install Suricata and run it against any
+`.pcap` file with `suricata -r yourfile.pcap`. Suricata produces
+`eve.json` in its log directory automatically.
+
+---
+
+## Example output
+
+```
+============================================================
+EVE LOG SUMMARY
+============================================================
+Total alerts: 48,921
+
+Severity breakdown:
+  High (1): 3,204
+  Medium (2): 31,445
+  Low (3): 14,272
+
+Top 10 alert signatures:
+  [8431] ET SCAN Nmap Scripting Engine User-Agent Detected
+  [6102] ET POLICY PE EXE or DLL Windows file download
+  ...
+
+Protocols seen:
+  TCP: 41,203
+  UDP: 7,718
+
+Alert timeline (per hour):
+  2024-01-15 08:00: 1,204
+  2024-01-15 09:00: 3,891
+  ...
+```
+
+```
+============================================================
+SUSPICIOUS ACTIVITY FINDINGS
+============================================================
+[Possible port scan]
+  Source IP : 203.0.113.45
+  Detail    : Hit 47 distinct destination ports
+
+[Possible brute-force / repeated probing]
+  Source IP : 198.51.100.12
+  Detail    : Triggered "ET SCAN SSH BruteForce" 312 times
+```
+
+---
+
+## How it handles large files
+
+Rather than loading the entire log file into memory, the tool reads it line
+by line using a generator with an 8MB read buffer. A single pass through the
+file collects all the data needed for every command — so even a 700MB log
+is processed efficiently without requiring significant RAM.
+
+The `search` command uses its own streaming pass so it can print results
+immediately without waiting for the full file to be read.
+
+---
+
+## Suspicious activity detection
+
+Three heuristics are applied automatically:
+
+**Port scan** — a single source IP targeting 10 or more distinct destination
+ports is flagged as a possible port scan.
+
+**Brute-force / repeated probing** — a source IP that triggers the same
+alert signature 5 or more times is flagged as possible brute-force activity.
+
+**Automated scanner** — a source IP that triggers 5 or more different alert
+types is flagged as a possible automated scanner.
+
+Thresholds are set conservatively by default and can be adjusted directly
+in the `find_suspicious_activity()` function.
+
+---
+
+## Skills demonstrated
+
+- Python CLI design with argparse subcommands
+- Memory-efficient streaming architecture for large file processing
+- Log parsing and event correlation
+- Heuristic-based threat detection
+- Suricata EVE JSON format and network security monitoring concepts
