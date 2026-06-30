@@ -179,10 +179,3 @@ in the `find_suspicious_activity()` function.
 
 ---
 
-## Skills demonstrated
-
-- Python CLI design with argparse subcommands
-- Memory-efficient streaming architecture for large file processing
-- Log parsing and event correlation
-- Heuristic-based threat detection
-- Suricata EVE JSON format and network security monitoring concepts
