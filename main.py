@@ -8,6 +8,9 @@ Usage:
     python main.py suspicious elogs/(filename).json
     python main.py search elogs/(filename).json --ip (IP_ADDRESS)
     python main.py report elogs/(filename).json --export
+    python main.py triage elogs/(filename).json
+    python main.py triage elogs/(filename).json --export myreport.txt
+    python main.py triage elogs/(filename).json --assets assets.yml --export myreport.txt
 """
 
 import argparse
@@ -17,6 +20,7 @@ import os
 import sys
 from collections import Counter, defaultdict
 from datetime import datetime
+from ipaddress import AddressValueError, ip_address, ip_network
 
 
 # ---------------------------------------------------------------------------
@@ -25,6 +29,7 @@ from datetime import datetime
 
 SEVERITY_LABELS = {1: "High", 2: "Medium", 3: "Low"}
 REPORTS_DIR = "reports"
+DEFAULT_ASSETS_FILE = "assets.yml"
 
 # Read the file in 8MB chunks rather than the default ~8KB.
 # For a 700MB file this cuts the number of read() syscalls from ~87,000
@@ -187,6 +192,377 @@ def find_suspicious_activity(data, port_scan_threshold=10, signature_threshold=5
     return findings
 
 
+def parse_yaml_scalar(value):
+    value = value.strip()
+    if value in ("null", "none", "None", "~"):
+        return None
+    lowered = value.lower()
+    if lowered in ("true", "false"):
+        return lowered == "true"
+    try:
+        if "." in value:
+            return float(value)
+        return int(value)
+    except ValueError:
+        return value.strip('"').strip("'")
+
+
+def load_assets(assets_file=None):
+    path = assets_file or DEFAULT_ASSETS_FILE
+    if not path or not os.path.exists(path):
+        return []
+
+    assets = []
+    current = None
+    root_key = None
+
+    with io.open(path, "r", encoding="utf-8") as f:
+        for raw_line in f:
+            line = raw_line.rstrip("\n")
+            stripped = line.strip()
+            if not stripped or stripped.startswith("#"):
+                continue
+
+            indent = len(line) - len(line.lstrip(" "))
+            if indent == 0 and stripped.endswith(":"):
+                root_key = stripped[:-1].strip()
+                continue
+
+            if root_key != "assets":
+                continue
+
+            if stripped.startswith("-"):
+                if current is not None:
+                    assets.append(current)
+                current = {}
+                remainder = stripped[1:].strip()
+                if remainder and ":" in remainder:
+                    key, value = remainder.split(":", 1)
+                    current[key.strip()] = parse_yaml_scalar(value)
+                continue
+
+            if current is None:
+                continue
+
+            if ":" in stripped:
+                key, value = stripped.split(":", 1)
+                current[key.strip()] = parse_yaml_scalar(value)
+
+    if current is not None:
+        assets.append(current)
+
+    normalized = []
+    for asset in assets:
+        normalized_asset = {
+            "name": asset.get("name", "Unnamed asset"),
+            "ip": asset.get("ip"),
+            "cidr": asset.get("cidr"),
+            "criticality": str(asset.get("criticality", "unknown")).strip().lower(),
+            "exposure": str(asset.get("exposure", "unknown")).strip().lower(),
+        }
+        normalized.append(normalized_asset)
+
+    return normalized
+
+
+def match_asset_for_ip(ip, assets):
+    if not ip or not assets:
+        return None
+
+    try:
+        parsed_ip = ip_address(ip)
+    except ValueError:
+        return None
+
+    exact_match = next((a for a in assets if a.get("ip") == ip), None)
+    if exact_match:
+        return exact_match
+
+    for asset in assets:
+        cidr = asset.get("cidr")
+        if not cidr:
+            continue
+        try:
+            if parsed_ip in ip_network(cidr, strict=False):
+                return asset
+        except (AddressValueError, ValueError):
+            continue
+
+    return None
+
+
+def normalize_severity(severity):
+    if isinstance(severity, int):
+        return severity
+    if isinstance(severity, str):
+        s = severity.strip().lower()
+        if s.isdigit():
+            return int(s)
+        if s in ("critical", "high"):
+            return 1
+        if s in ("medium", "med"):
+            return 2
+        if s in ("low", "info", "informational"):
+            return 3
+    return 3
+
+
+def signature_risk_weight(signature):
+    if not signature:
+        return 0
+    sig = signature.lower()
+    weights = 0
+    high_risk = [
+        "ransomware",
+        "cobalt strike",
+        "meterpreter",
+        "shellcode",
+        "exploit",
+        "privilege escalation",
+        "sql injection",
+        "command injection",
+        "remote code execution",
+        "unauthorized access",
+        "brute force",
+        "password spraying",
+        "malware",
+        "botnet",
+        "backdoor",
+        "c2 server",
+    ]
+    moderate_risk = [
+        "scanner",
+        "port scan",
+        "suspicious",
+        "unauthenticated",
+        "traffic anomaly",
+        "dos",
+        "ddos",
+        "sqli",
+        "xss",
+    ]
+    for keyword in high_risk:
+        if keyword in sig:
+            return 15
+    for keyword in moderate_risk:
+        if keyword in sig:
+            weights = max(weights, 8)
+    return weights
+
+
+def port_risk_weight(port):
+    try:
+        port = int(port)
+    except (TypeError, ValueError):
+        return 0
+
+    critical_ports = {22, 23, 80, 443, 3389, 3306, 1433, 1521, 5985, 5900, 8080}
+    sensitive_ports = {53, 111, 137, 139, 445, 514, 873, 5000, 5001, 11211}
+    if port in critical_ports:
+        return 12
+    if port in sensitive_ports:
+        return 8
+    if 1 <= port <= 1024:
+        return 5
+    return 2
+
+
+def get_asset_weight(asset):
+    if not asset:
+        return 15
+
+    criticality_weights = {
+        "critical": 45,
+        "high": 35,
+        "medium": 25,
+        "low": 15,
+        "unknown": 15,
+    }
+    exposure_weights = {
+        "internet-facing": 35,
+        "internet": 30,
+        "external": 25,
+        "dmz": 20,
+        "internal": 15,
+        "honeypot": 20,
+        "unknown": 15,
+    }
+    return (
+        criticality_weights.get(asset.get("criticality", "unknown"), 15)
+        + exposure_weights.get(asset.get("exposure", "unknown"), 15)
+    )
+
+
+def compute_suspicion_scores(data, port_scan_threshold=10, signature_threshold=5):
+    suspicion_scores = {}
+
+    for ip, ports in data["src_ports"].items():
+        score = 0
+        reasons = []
+        distinct_ports = len(ports)
+        if distinct_ports >= port_scan_threshold:
+            score += 25 + max(0, distinct_ports - port_scan_threshold) * 2
+            reasons.append(f"port scan ({distinct_ports} distinct ports)")
+        suspicion_scores[ip] = {"score": score, "reasons": reasons}
+
+    for ip, sig_counts in data["src_sigs"].items():
+        entry = suspicion_scores.setdefault(ip, {"score": 0, "reasons": []})
+        total = sum(sig_counts.values())
+        distinct = len(sig_counts)
+        top_sig, top_count = sig_counts.most_common(1)[0]
+
+        if top_count >= signature_threshold:
+            entry["score"] += 18 + max(0, top_count - signature_threshold) * 2
+            entry["reasons"].append(f"repeated '{top_sig}' {top_count} times")
+
+        if distinct >= signature_threshold and total >= signature_threshold:
+            entry["score"] += 18 + max(0, distinct - signature_threshold) * 2
+            entry["reasons"].append(
+                f"diverse signatures ({distinct} different, {total} total alerts)"
+            )
+
+        if total >= 25:
+            entry["score"] += 10
+            entry["reasons"].append(f"high alert volume ({total} alerts)")
+
+    return suspicion_scores
+
+
+def score_alert_for_triage(event, asset, suspicion):
+    severity = normalize_severity(event.get("alert", {}).get("severity"))
+    severity_weight = {1: 40, 2: 30, 3: 20}.get(severity, 20)
+
+    signature = event.get("alert", {}).get("signature", "")
+    signature_weight = signature_risk_weight(signature)
+    port_weight = port_risk_weight(event.get("dest_port"))
+    asset_weight = get_asset_weight(asset)
+    suspicion_weight = suspicion.get("score", 0)
+
+    score = asset_weight + severity_weight + suspicion_weight + signature_weight + port_weight
+    if not asset:
+        score += 5
+
+    return {
+        "score": score,
+        "asset_name": asset.get("name") if asset else "Unknown asset",
+        "asset_criticality": asset.get("criticality", "unknown") if asset else "unknown",
+        "asset_exposure": asset.get("exposure", "unknown") if asset else "unknown",
+        "suspicion_reasons": suspicion.get("reasons", []),
+    }
+
+
+def categorize_triage_entries(entries):
+    buckets = {
+        "Page now": [],
+        "Review this shift": [],
+        "Log only": [],
+    }
+
+    for entry in entries:
+        if entry["score"] >= 80:
+            buckets["Page now"].append(entry)
+        elif entry["score"] >= 55:
+            buckets["Review this shift"].append(entry)
+        else:
+            buckets["Log only"].append(entry)
+
+    return buckets
+
+
+def triage(log_file, assets_file=None):
+    assets = load_assets(assets_file)
+    data = analyze(log_file)
+    suspicion_map = compute_suspicion_scores(data)
+
+    triage_entries = []
+    for event in iter_alerts(log_file):
+        src_ip = event.get("src_ip")
+        dest_ip = event.get("dest_ip")
+        asset = match_asset_for_ip(dest_ip, assets) or match_asset_for_ip(src_ip, assets)
+        suspicion = suspicion_map.get(src_ip, {"score": 0, "reasons": []})
+        scored = score_alert_for_triage(event, asset, suspicion)
+
+        triage_entries.append(
+            {
+                "score": scored["score"],
+                "timestamp": event.get("timestamp", "?")[:19],
+                "src_ip": src_ip or "?",
+                "dest_ip": dest_ip or "?",
+                "dest_port": event.get("dest_port", "?"),
+                "proto": event.get("proto", "?"),
+                "signature": event.get("alert", {}).get("signature", "Unknown signature"),
+                "severity": event.get("alert", {}).get("severity", "?") ,
+                "asset_name": scored["asset_name"],
+                "asset_criticality": scored["asset_criticality"],
+                "asset_exposure": scored["asset_exposure"],
+                "suspicion_reasons": scored["suspicion_reasons"],
+            }
+        )
+
+    triage_entries.sort(key=lambda x: x["score"], reverse=True)
+    return {
+        "assets_loaded": len(assets),
+        "alerts_processed": len(triage_entries),
+        "buckets": categorize_triage_entries(triage_entries),
+    }
+
+
+def format_triage_report(report):
+    lines = []
+    lines.append("=" * 100)
+    lines.append("EVE TRIAGE REPORT".center(100))
+    lines.append("=" * 100)
+    lines.append(f"Alerts processed: {report['alerts_processed']}".ljust(50) + f"Assets loaded: {report['assets_loaded']}")
+    lines.append("")
+
+    for tier in ("Page now", "Review this shift", "Log only"):
+        entries = report["buckets"][tier]
+        lines.append("-" * 100)
+        lines.append(f"{tier} ({len(entries)} alerts)")
+        lines.append("-" * 100)
+        if not entries:
+            lines.append("  None")
+        else:
+            lines.append(
+                "  "
+                + "Score".rjust(5)
+                + "  "
+                + "Timestamp".ljust(19)
+                + "  "
+                + "Src -> Dst:Port".ljust(38)
+                + "  "
+                + "Proto".ljust(5)
+                + "  "
+                + "Sev".ljust(3)
+                + "  "
+                + "Asset (crit/exposure)"
+            )
+            lines.append("  " + "-" * 94)
+            for entry in entries:
+                reason_text = "; ".join(entry["suspicion_reasons"]) or "none"
+                src_dest = f"{entry['src_ip']}->{entry['dest_ip']}:{entry['dest_port']}"
+                asset_meta = f"{entry['asset_name']}({entry['asset_criticality']}/{entry['asset_exposure']})"
+                lines.append(
+                    "  "
+                    + f"{entry['score']:>5}"
+                    + "  "
+                    + f"{entry['timestamp']:<19}"
+                    + "  "
+                    + f"{src_dest:<38}"
+                    + "  "
+                    + f"{entry['proto']:<5}"
+                    + "  "
+                    + f"{str(entry['severity']):<3}"
+                    + "  "
+                    + asset_meta
+                )
+                lines.append(f"      reason: {reason_text}")
+                lines.append("")
+        lines.append("")
+
+    return lines
+
+
 # ---------------------------------------------------------------------------
 # Search  (only command that still streams — results printed as they match)
 # ---------------------------------------------------------------------------
@@ -217,39 +593,49 @@ def search_alerts(log_file, ip=None, signature_keyword=None):
 
 def format_summary(data, n_sigs=10, n_ports=10):
     lines = []
-    lines.append("=" * 60)
-    lines.append("EVE LOG SUMMARY")
-    lines.append("=" * 60)
-    lines.append(f"Total alerts: {data['total']}")
+    lines.append("=" * 80)
+    lines.append("EVE LOG SUMMARY".center(80))
+    lines.append("=" * 80)
+    lines.append(f"Total alerts: {data['total']}".ljust(40) + f"Unique signatures: {len(data['sig_counts'])}")
     lines.append("")
 
     lines.append("Severity breakdown:")
+    lines.append("  " + "Severity".ljust(15) + "Count")
+    lines.append("  " + "-" * 24)
     for sev, count in sorted(data["severity_counts"].items(), key=lambda x: str(x[0])):
         label = SEVERITY_LABELS.get(sev, str(sev))
-        lines.append(f"  {label} ({sev}): {count}")
+        lines.append(f"  {label:<15}{count}")
     lines.append("")
 
     lines.append(f"Top {n_sigs} alert signatures:")
+    lines.append("  " + "Count".rjust(6) + "  Signature")
+    lines.append("  " + "-" * 70)
     for sig, count in data["sig_counts"].most_common(n_sigs):
-        lines.append(f"  [{count:>4}] {sig}")
+        lines.append(f"  {count:>6}  {sig}")
     lines.append("")
 
     lines.append("Protocols seen:")
+    lines.append("  " + "Protocol".ljust(15) + "Count")
+    lines.append("  " + "-" * 24)
     for proto, count in data["proto_counts"].most_common():
-        lines.append(f"  {proto}: {count}")
+        lines.append(f"  {proto:<15}{count}")
     lines.append("")
 
     lines.append(f"Top {n_ports} targeted destination ports:")
+    lines.append("  " + "Port".ljust(8) + "Count")
+    lines.append("  " + "-" * 20)
     for port, count in data["port_counts"].most_common(n_ports):
-        lines.append(f"  Port {port}: {count}")
+        lines.append(f"  {str(port):<8}{count}")
     lines.append("")
 
     lines.append("Alert timeline (per hour):")
+    lines.append("  " + "Hour".ljust(20) + "Count")
+    lines.append("  " + "-" * 30)
     sorted_keys = sorted(k for k in data["timeline"] if k != "unknown")
     for key in sorted_keys:
-        lines.append(f"  {key}: {data['timeline'][key]}")
+        lines.append(f"  {key:<20}{data['timeline'][key]}")
     if "unknown" in data["timeline"]:
-        lines.append(f"  unknown: {data['timeline']['unknown']}")
+        lines.append(f"  {'unknown':<20}{data['timeline']['unknown']}")
     lines.append("")
 
     return lines
@@ -257,18 +643,22 @@ def format_summary(data, n_sigs=10, n_ports=10):
 
 def format_top_ips(data, n=10):
     lines = []
-    lines.append("=" * 60)
-    lines.append(f"TOP {n} SOURCE / DESTINATION IPs")
-    lines.append("=" * 60)
+    lines.append("=" * 80)
+    lines.append(f"TOP {n} SOURCE / DESTINATION IPs".center(80))
+    lines.append("=" * 80)
 
     lines.append("Top source IPs (most alerts triggered):")
+    lines.append("  " + "Count".rjust(6) + "  Source IP")
+    lines.append("  " + "-" * 50)
     for ip, count in data["src_ip_counts"].most_common(n):
-        lines.append(f"  [{count:>4}] {ip}")
+        lines.append(f"  {count:>6}  {ip}")
     lines.append("")
 
     lines.append("Top destination IPs (most alerts received):")
+    lines.append("  " + "Count".rjust(6) + "  Destination IP")
+    lines.append("  " + "-" * 50)
     for ip, count in data["dest_ip_counts"].most_common(n):
-        lines.append(f"  [{count:>4}] {ip}")
+        lines.append(f"  {count:>6}  {ip}")
     lines.append("")
 
     return lines
@@ -276,19 +666,20 @@ def format_top_ips(data, n=10):
 
 def format_suspicious(data):
     lines = []
-    lines.append("=" * 60)
-    lines.append("SUSPICIOUS ACTIVITY FINDINGS")
-    lines.append("=" * 60)
+    lines.append("=" * 80)
+    lines.append("SUSPICIOUS ACTIVITY FINDINGS".center(80))
+    lines.append("=" * 80)
 
     findings = find_suspicious_activity(data)
     if not findings:
         lines.append("No suspicious patterns detected with current thresholds.")
+        lines.append("")
     else:
+        lines.append("  " + "Type".ljust(42) + "Source IP".ljust(20) + "Detail")
+        lines.append("  " + "-" * 75)
         for f in findings:
-            lines.append(f"[{f['type']}]")
-            lines.append(f"  Source IP : {f['src_ip']}")
-            lines.append(f"  Detail    : {f['detail']}")
-            lines.append("")
+            lines.append(f"  {f['type']:<42}{f['src_ip']:<20}{f['detail']}")
+        lines.append("")
 
     return lines
 
@@ -321,10 +712,11 @@ def output_lines(lines, export_name=None):
     print(text)
 
     if export_name is not None:
-        os.makedirs(REPORTS_DIR, exist_ok=True)
         if export_name is True:
             timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
             export_name = f"report_{timestamp}.txt"
+
+        os.makedirs(REPORTS_DIR, exist_ok=True)
         export_path = os.path.join(REPORTS_DIR, export_name)
         try:
             with open(export_path, "w", encoding="utf-8") as f:
@@ -372,6 +764,23 @@ def main():
     p_report.add_argument("log_file")
     p_report.add_argument("--export", nargs="?", const=True, metavar="FILENAME", help=export_help)
 
+    p_triage = subparsers.add_parser("triage", help="Score alerts and generate a three-tier triage report")
+    p_triage.add_argument("log_file")
+    p_triage.add_argument(
+        "--assets",
+        default=DEFAULT_ASSETS_FILE,
+        metavar="PATH",
+        help="Optional path to assets.yml defining asset criticality and exposure (defaults to assets.yml)",
+    )
+    p_triage.add_argument(
+        "--export",
+        nargs="?",
+        const=True,
+        default=True,
+        metavar="FILENAME",
+        help="Save triage output to reports/ by default; optionally provide a filename",
+    )
+
     args = parser.parse_args()
 
     if args.command == "search":
@@ -404,6 +813,10 @@ def main():
         lines.extend(format_top_ips(data))
         lines.extend(format_suspicious(data))
         output_lines(lines, args.export)
+
+    elif args.command == "triage":
+        report = triage(args.log_file, assets_file=args.assets)
+        output_lines(format_triage_report(report), args.export)
 
 
 if __name__ == "__main__":

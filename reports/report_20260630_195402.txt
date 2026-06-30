@@ -1,0 +1,785 @@
+====================================================================================================
+                                         EVE TRIAGE REPORT                                          
+====================================================================================================
+Alerts processed: 254                             Assets loaded: 6
+
+----------------------------------------------------------------------------------------------------
+Page now (52 alerts)
+----------------------------------------------------------------------------------------------------
+  Score  Timestamp            Src -> Dst:Port                         Proto  Sev  Asset (crit/exposure)
+  ----------------------------------------------------------------------------------------------
+    161  2019-01-02T03:50:09  8.42.77.171->138.68.3.71:3306           TCP    2    Unknown asset(unknown/unknown)
+      reason: port scan (15 distinct ports); repeated 'ET SCAN Suspicious inbound to mySQL port 3306' 8 times; diverse signatures (7 different, 52 total alerts); high alert volume (52 alerts)
+
+    161  2019-01-02T03:50:10  8.42.77.171->138.68.3.71:1433           TCP    2    Unknown asset(unknown/unknown)
+      reason: port scan (15 distinct ports); repeated 'ET SCAN Suspicious inbound to mySQL port 3306' 8 times; diverse signatures (7 different, 52 total alerts); high alert volume (52 alerts)
+
+    161  2019-01-02T03:50:10  8.42.77.171->138.68.3.71:1521           TCP    2    Unknown asset(unknown/unknown)
+      reason: port scan (15 distinct ports); repeated 'ET SCAN Suspicious inbound to mySQL port 3306' 8 times; diverse signatures (7 different, 52 total alerts); high alert volume (52 alerts)
+
+    161  2019-01-02T03:52:18  8.42.77.171->138.68.3.71:3306           TCP    2    Unknown asset(unknown/unknown)
+      reason: port scan (15 distinct ports); repeated 'ET SCAN Suspicious inbound to mySQL port 3306' 8 times; diverse signatures (7 different, 52 total alerts); high alert volume (52 alerts)
+
+    161  2019-01-02T03:52:20  8.42.77.171->138.68.3.71:1433           TCP    2    Unknown asset(unknown/unknown)
+      reason: port scan (15 distinct ports); repeated 'ET SCAN Suspicious inbound to mySQL port 3306' 8 times; diverse signatures (7 different, 52 total alerts); high alert volume (52 alerts)
+
+    161  2019-01-02T03:52:20  8.42.77.171->138.68.3.71:1521           TCP    2    Unknown asset(unknown/unknown)
+      reason: port scan (15 distinct ports); repeated 'ET SCAN Suspicious inbound to mySQL port 3306' 8 times; diverse signatures (7 different, 52 total alerts); high alert volume (52 alerts)
+
+    161  2019-01-02T03:55:32  8.42.77.171->138.68.3.71:3306           TCP    2    Unknown asset(unknown/unknown)
+      reason: port scan (15 distinct ports); repeated 'ET SCAN Suspicious inbound to mySQL port 3306' 8 times; diverse signatures (7 different, 52 total alerts); high alert volume (52 alerts)
+
+    161  2019-01-02T03:55:33  8.42.77.171->138.68.3.71:1521           TCP    2    Unknown asset(unknown/unknown)
+      reason: port scan (15 distinct ports); repeated 'ET SCAN Suspicious inbound to mySQL port 3306' 8 times; diverse signatures (7 different, 52 total alerts); high alert volume (52 alerts)
+
+    161  2019-01-02T03:55:33  8.42.77.171->138.68.3.71:1433           TCP    2    Unknown asset(unknown/unknown)
+      reason: port scan (15 distinct ports); repeated 'ET SCAN Suspicious inbound to mySQL port 3306' 8 times; diverse signatures (7 different, 52 total alerts); high alert volume (52 alerts)
+
+    161  2019-01-02T04:16:04  8.42.77.171->138.68.3.71:3306           TCP    2    Unknown asset(unknown/unknown)
+      reason: port scan (15 distinct ports); repeated 'ET SCAN Suspicious inbound to mySQL port 3306' 8 times; diverse signatures (7 different, 52 total alerts); high alert volume (52 alerts)
+
+    161  2019-01-02T04:16:04  8.42.77.171->138.68.3.71:1521           TCP    2    Unknown asset(unknown/unknown)
+      reason: port scan (15 distinct ports); repeated 'ET SCAN Suspicious inbound to mySQL port 3306' 8 times; diverse signatures (7 different, 52 total alerts); high alert volume (52 alerts)
+
+    161  2019-01-02T04:16:04  8.42.77.171->138.68.3.71:1433           TCP    2    Unknown asset(unknown/unknown)
+      reason: port scan (15 distinct ports); repeated 'ET SCAN Suspicious inbound to mySQL port 3306' 8 times; diverse signatures (7 different, 52 total alerts); high alert volume (52 alerts)
+
+    161  2019-01-02T05:02:02  8.42.77.171->138.68.3.71:3306           TCP    2    Unknown asset(unknown/unknown)
+      reason: port scan (15 distinct ports); repeated 'ET SCAN Suspicious inbound to mySQL port 3306' 8 times; diverse signatures (7 different, 52 total alerts); high alert volume (52 alerts)
+
+    161  2019-01-02T05:02:03  8.42.77.171->138.68.3.71:1521           TCP    2    Unknown asset(unknown/unknown)
+      reason: port scan (15 distinct ports); repeated 'ET SCAN Suspicious inbound to mySQL port 3306' 8 times; diverse signatures (7 different, 52 total alerts); high alert volume (52 alerts)
+
+    161  2019-01-02T05:02:03  8.42.77.171->138.68.3.71:1433           TCP    2    Unknown asset(unknown/unknown)
+      reason: port scan (15 distinct ports); repeated 'ET SCAN Suspicious inbound to mySQL port 3306' 8 times; diverse signatures (7 different, 52 total alerts); high alert volume (52 alerts)
+
+    161  2019-01-02T05:02:21  8.42.77.171->138.68.3.71:3306           TCP    2    Unknown asset(unknown/unknown)
+      reason: port scan (15 distinct ports); repeated 'ET SCAN Suspicious inbound to mySQL port 3306' 8 times; diverse signatures (7 different, 52 total alerts); high alert volume (52 alerts)
+
+    161  2019-01-02T05:02:21  8.42.77.171->138.68.3.71:1521           TCP    2    Unknown asset(unknown/unknown)
+      reason: port scan (15 distinct ports); repeated 'ET SCAN Suspicious inbound to mySQL port 3306' 8 times; diverse signatures (7 different, 52 total alerts); high alert volume (52 alerts)
+
+    161  2019-01-02T05:02:22  8.42.77.171->138.68.3.71:1433           TCP    2    Unknown asset(unknown/unknown)
+      reason: port scan (15 distinct ports); repeated 'ET SCAN Suspicious inbound to mySQL port 3306' 8 times; diverse signatures (7 different, 52 total alerts); high alert volume (52 alerts)
+
+    161  2019-01-02T05:15:26  8.42.77.171->138.68.3.71:3306           TCP    2    Unknown asset(unknown/unknown)
+      reason: port scan (15 distinct ports); repeated 'ET SCAN Suspicious inbound to mySQL port 3306' 8 times; diverse signatures (7 different, 52 total alerts); high alert volume (52 alerts)
+
+    161  2019-01-02T05:15:28  8.42.77.171->138.68.3.71:1433           TCP    2    Unknown asset(unknown/unknown)
+      reason: port scan (15 distinct ports); repeated 'ET SCAN Suspicious inbound to mySQL port 3306' 8 times; diverse signatures (7 different, 52 total alerts); high alert volume (52 alerts)
+
+    161  2019-01-02T05:15:30  8.42.77.171->138.68.3.71:1521           TCP    2    Unknown asset(unknown/unknown)
+      reason: port scan (15 distinct ports); repeated 'ET SCAN Suspicious inbound to mySQL port 3306' 8 times; diverse signatures (7 different, 52 total alerts); high alert volume (52 alerts)
+
+    161  2019-01-02T05:21:25  8.42.77.171->138.68.3.71:3306           TCP    2    Unknown asset(unknown/unknown)
+      reason: port scan (15 distinct ports); repeated 'ET SCAN Suspicious inbound to mySQL port 3306' 8 times; diverse signatures (7 different, 52 total alerts); high alert volume (52 alerts)
+
+    161  2019-01-02T05:21:25  8.42.77.171->138.68.3.71:1433           TCP    2    Unknown asset(unknown/unknown)
+      reason: port scan (15 distinct ports); repeated 'ET SCAN Suspicious inbound to mySQL port 3306' 8 times; diverse signatures (7 different, 52 total alerts); high alert volume (52 alerts)
+
+    161  2019-01-02T05:21:25  8.42.77.171->138.68.3.71:1521           TCP    2    Unknown asset(unknown/unknown)
+      reason: port scan (15 distinct ports); repeated 'ET SCAN Suspicious inbound to mySQL port 3306' 8 times; diverse signatures (7 different, 52 total alerts); high alert volume (52 alerts)
+
+    153  2019-01-02T03:50:11  8.42.77.171->138.68.3.71:22             TCP    2    Unknown asset(unknown/unknown)
+      reason: port scan (15 distinct ports); repeated 'ET SCAN Suspicious inbound to mySQL port 3306' 8 times; diverse signatures (7 different, 52 total alerts); high alert volume (52 alerts)
+
+    153  2019-01-02T03:52:20  8.42.77.171->138.68.3.71:22             TCP    2    Unknown asset(unknown/unknown)
+      reason: port scan (15 distinct ports); repeated 'ET SCAN Suspicious inbound to mySQL port 3306' 8 times; diverse signatures (7 different, 52 total alerts); high alert volume (52 alerts)
+
+    153  2019-01-02T03:55:34  8.42.77.171->138.68.3.71:22             TCP    2    Unknown asset(unknown/unknown)
+      reason: port scan (15 distinct ports); repeated 'ET SCAN Suspicious inbound to mySQL port 3306' 8 times; diverse signatures (7 different, 52 total alerts); high alert volume (52 alerts)
+
+    153  2019-01-02T04:16:04  8.42.77.171->138.68.3.71:22             TCP    2    Unknown asset(unknown/unknown)
+      reason: port scan (15 distinct ports); repeated 'ET SCAN Suspicious inbound to mySQL port 3306' 8 times; diverse signatures (7 different, 52 total alerts); high alert volume (52 alerts)
+
+    153  2019-01-02T05:02:23  8.42.77.171->138.68.3.71:22             TCP    2    Unknown asset(unknown/unknown)
+      reason: port scan (15 distinct ports); repeated 'ET SCAN Suspicious inbound to mySQL port 3306' 8 times; diverse signatures (7 different, 52 total alerts); high alert volume (52 alerts)
+
+    153  2019-01-02T05:21:26  8.42.77.171->138.68.3.71:22             TCP    2    Unknown asset(unknown/unknown)
+      reason: port scan (15 distinct ports); repeated 'ET SCAN Suspicious inbound to mySQL port 3306' 8 times; diverse signatures (7 different, 52 total alerts); high alert volume (52 alerts)
+
+    151  2019-01-02T03:50:10  8.42.77.171->138.68.3.71:5432           TCP    2    Unknown asset(unknown/unknown)
+      reason: port scan (15 distinct ports); repeated 'ET SCAN Suspicious inbound to mySQL port 3306' 8 times; diverse signatures (7 different, 52 total alerts); high alert volume (52 alerts)
+
+    151  2019-01-02T03:52:18  8.42.77.171->138.68.3.71:5432           TCP    2    Unknown asset(unknown/unknown)
+      reason: port scan (15 distinct ports); repeated 'ET SCAN Suspicious inbound to mySQL port 3306' 8 times; diverse signatures (7 different, 52 total alerts); high alert volume (52 alerts)
+
+    151  2019-01-02T03:55:33  8.42.77.171->138.68.3.71:5432           TCP    2    Unknown asset(unknown/unknown)
+      reason: port scan (15 distinct ports); repeated 'ET SCAN Suspicious inbound to mySQL port 3306' 8 times; diverse signatures (7 different, 52 total alerts); high alert volume (52 alerts)
+
+    151  2019-01-02T04:16:04  8.42.77.171->138.68.3.71:5432           TCP    2    Unknown asset(unknown/unknown)
+      reason: port scan (15 distinct ports); repeated 'ET SCAN Suspicious inbound to mySQL port 3306' 8 times; diverse signatures (7 different, 52 total alerts); high alert volume (52 alerts)
+
+    151  2019-01-02T05:02:03  8.42.77.171->138.68.3.71:5432           TCP    2    Unknown asset(unknown/unknown)
+      reason: port scan (15 distinct ports); repeated 'ET SCAN Suspicious inbound to mySQL port 3306' 8 times; diverse signatures (7 different, 52 total alerts); high alert volume (52 alerts)
+
+    151  2019-01-02T05:02:22  8.42.77.171->138.68.3.71:5432           TCP    2    Unknown asset(unknown/unknown)
+      reason: port scan (15 distinct ports); repeated 'ET SCAN Suspicious inbound to mySQL port 3306' 8 times; diverse signatures (7 different, 52 total alerts); high alert volume (52 alerts)
+
+    151  2019-01-02T05:15:28  8.42.77.171->138.68.3.71:5432           TCP    2    Unknown asset(unknown/unknown)
+      reason: port scan (15 distinct ports); repeated 'ET SCAN Suspicious inbound to mySQL port 3306' 8 times; diverse signatures (7 different, 52 total alerts); high alert volume (52 alerts)
+
+    151  2019-01-02T05:21:25  8.42.77.171->138.68.3.71:5432           TCP    2    Unknown asset(unknown/unknown)
+      reason: port scan (15 distinct ports); repeated 'ET SCAN Suspicious inbound to mySQL port 3306' 8 times; diverse signatures (7 different, 52 total alerts); high alert volume (52 alerts)
+
+    143  2019-01-02T03:50:10  8.42.77.171->138.68.3.71:5915           TCP    2    Unknown asset(unknown/unknown)
+      reason: port scan (15 distinct ports); repeated 'ET SCAN Suspicious inbound to mySQL port 3306' 8 times; diverse signatures (7 different, 52 total alerts); high alert volume (52 alerts)
+
+    143  2019-01-02T03:50:10  8.42.77.171->138.68.3.71:5811           TCP    2    Unknown asset(unknown/unknown)
+      reason: port scan (15 distinct ports); repeated 'ET SCAN Suspicious inbound to mySQL port 3306' 8 times; diverse signatures (7 different, 52 total alerts); high alert volume (52 alerts)
+
+    143  2019-01-02T03:52:20  8.42.77.171->138.68.3.71:5906           TCP    2    Unknown asset(unknown/unknown)
+      reason: port scan (15 distinct ports); repeated 'ET SCAN Suspicious inbound to mySQL port 3306' 8 times; diverse signatures (7 different, 52 total alerts); high alert volume (52 alerts)
+
+    143  2019-01-02T03:52:20  8.42.77.171->138.68.3.71:5801           TCP    2    Unknown asset(unknown/unknown)
+      reason: port scan (15 distinct ports); repeated 'ET SCAN Suspicious inbound to mySQL port 3306' 8 times; diverse signatures (7 different, 52 total alerts); high alert volume (52 alerts)
+
+    143  2019-01-02T03:55:33  8.42.77.171->138.68.3.71:5915           TCP    2    Unknown asset(unknown/unknown)
+      reason: port scan (15 distinct ports); repeated 'ET SCAN Suspicious inbound to mySQL port 3306' 8 times; diverse signatures (7 different, 52 total alerts); high alert volume (52 alerts)
+
+    143  2019-01-02T03:55:33  8.42.77.171->138.68.3.71:5811           TCP    2    Unknown asset(unknown/unknown)
+      reason: port scan (15 distinct ports); repeated 'ET SCAN Suspicious inbound to mySQL port 3306' 8 times; diverse signatures (7 different, 52 total alerts); high alert volume (52 alerts)
+
+    143  2019-01-02T04:16:04  8.42.77.171->138.68.3.71:5907           TCP    2    Unknown asset(unknown/unknown)
+      reason: port scan (15 distinct ports); repeated 'ET SCAN Suspicious inbound to mySQL port 3306' 8 times; diverse signatures (7 different, 52 total alerts); high alert volume (52 alerts)
+
+    143  2019-01-02T04:16:04  8.42.77.171->138.68.3.71:5800           TCP    2    Unknown asset(unknown/unknown)
+      reason: port scan (15 distinct ports); repeated 'ET SCAN Suspicious inbound to mySQL port 3306' 8 times; diverse signatures (7 different, 52 total alerts); high alert volume (52 alerts)
+
+    143  2019-01-02T05:02:03  8.42.77.171->138.68.3.71:5903           TCP    2    Unknown asset(unknown/unknown)
+      reason: port scan (15 distinct ports); repeated 'ET SCAN Suspicious inbound to mySQL port 3306' 8 times; diverse signatures (7 different, 52 total alerts); high alert volume (52 alerts)
+
+    143  2019-01-02T05:02:03  8.42.77.171->138.68.3.71:5802           TCP    2    Unknown asset(unknown/unknown)
+      reason: port scan (15 distinct ports); repeated 'ET SCAN Suspicious inbound to mySQL port 3306' 8 times; diverse signatures (7 different, 52 total alerts); high alert volume (52 alerts)
+
+    143  2019-01-02T05:15:31  8.42.77.171->138.68.3.71:5904           TCP    2    Unknown asset(unknown/unknown)
+      reason: port scan (15 distinct ports); repeated 'ET SCAN Suspicious inbound to mySQL port 3306' 8 times; diverse signatures (7 different, 52 total alerts); high alert volume (52 alerts)
+
+    143  2019-01-02T05:15:34  8.42.77.171->138.68.3.71:5801           TCP    2    Unknown asset(unknown/unknown)
+      reason: port scan (15 distinct ports); repeated 'ET SCAN Suspicious inbound to mySQL port 3306' 8 times; diverse signatures (7 different, 52 total alerts); high alert volume (52 alerts)
+
+    143  2019-01-02T05:21:25  8.42.77.171->138.68.3.71:5911           TCP    2    Unknown asset(unknown/unknown)
+      reason: port scan (15 distinct ports); repeated 'ET SCAN Suspicious inbound to mySQL port 3306' 8 times; diverse signatures (7 different, 52 total alerts); high alert volume (52 alerts)
+
+    143  2019-01-02T05:21:25  8.42.77.171->138.68.3.71:5801           TCP    2    Unknown asset(unknown/unknown)
+      reason: port scan (15 distinct ports); repeated 'ET SCAN Suspicious inbound to mySQL port 3306' 8 times; diverse signatures (7 different, 52 total alerts); high alert volume (52 alerts)
+
+
+----------------------------------------------------------------------------------------------------
+Review this shift (66 alerts)
+----------------------------------------------------------------------------------------------------
+  Score  Timestamp            Src -> Dst:Port                         Proto  Sev  Asset (crit/exposure)
+  ----------------------------------------------------------------------------------------------
+     70  2019-01-02T03:51:01  61.176.222.167->138.68.3.71:1433        TCP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     70  2019-01-02T03:51:01  61.176.222.167->138.68.3.71:1433        TCP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     70  2019-01-02T03:55:46  205.209.162.131->138.68.3.71:1433       TCP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     70  2019-01-02T03:56:03  113.10.171.28->138.68.3.71:1433         TCP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     70  2019-01-02T03:56:08  43.227.231.129->138.68.3.71:1433        TCP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     70  2019-01-02T03:56:08  43.227.231.129->138.68.3.71:1433        TCP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     70  2019-01-02T04:00:36  199.231.226.166->138.68.3.71:1433       TCP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     70  2019-01-02T04:05:09  122.10.90.9->138.68.3.71:1433           TCP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     70  2019-01-02T04:08:44  58.215.57.185->138.68.3.71:1433         TCP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     70  2019-01-02T04:41:23  212.118.117.245->138.68.3.71:1433       TCP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     70  2019-01-02T04:41:47  5.42.250.179->138.68.3.71:1433          TCP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     70  2019-01-02T04:43:11  190.61.31.105->138.68.3.71:1433         TCP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     70  2019-01-02T04:43:11  190.61.31.105->138.68.3.71:1433         TCP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     70  2019-01-02T04:54:28  59.47.71.13->138.68.3.71:3306           TCP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     70  2019-01-02T04:54:28  59.47.71.13->138.68.3.71:3306           TCP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     70  2019-01-02T05:07:25  120.192.150.234->138.68.3.71:1433       TCP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     70  2019-01-02T05:15:32  45.62.211.169->138.68.3.71:1433         TCP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     70  2019-01-02T05:15:32  45.62.211.169->138.68.3.71:1433         TCP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     70  2019-01-02T05:17:02  103.94.2.20->138.68.3.71:1433           TCP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     70  2019-01-02T05:45:37  172.93.97.106->138.68.3.71:1433         TCP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     70  2019-01-02T06:00:03  183.62.210.228->138.68.3.71:1433        TCP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     70  2019-01-02T06:11:00  107.175.128.157->138.68.3.71:1433       TCP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     70  2019-01-02T06:13:12  122.60.171.48->138.68.3.71:1433         TCP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     70  2019-01-02T06:14:23  187.188.85.53->138.68.3.71:1433         TCP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     70  2019-01-02T06:21:16  123.161.205.21->138.68.3.71:1433        TCP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     70  2019-01-02T06:23:43  119.180.27.2->138.68.3.71:1433          TCP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     70  2019-01-02T06:28:21  119.57.173.243->138.68.3.71:1433        TCP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     70  2019-01-02T06:33:52  213.14.156.109->138.68.3.71:1433        TCP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     70  2019-01-02T06:34:08  112.140.186.244->138.68.3.71:1433       TCP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     70  2019-01-02T06:34:40  221.229.166.37->138.68.3.71:1433        TCP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     70  2019-01-02T06:43:42  205.209.158.36->138.68.3.71:1433        TCP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     70  2019-01-02T06:47:53  116.112.214.134->138.68.3.71:1433       TCP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     62  2019-01-02T03:51:01  61.176.222.167->138.68.3.71:1433        TCP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     62  2019-01-02T03:56:08  43.227.231.129->138.68.3.71:1433        TCP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     62  2019-01-02T04:02:58  185.244.25.105->138.68.3.71:22          TCP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     62  2019-01-02T04:35:53  185.244.25.145->138.68.3.71:23          TCP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     62  2019-01-02T04:35:53  185.244.25.145->138.68.3.71:23          TCP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     62  2019-01-02T04:35:53  185.244.25.145->138.68.3.71:23          TCP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     62  2019-01-02T04:54:28  59.47.71.13->138.68.3.71:3306           TCP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     62  2019-01-02T04:59:05  58.218.213.6->138.68.3.71:8080          TCP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     62  2019-01-02T05:11:06  89.248.168.51->138.68.3.71:80           UDP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     62  2019-01-02T05:15:32  45.62.211.169->138.68.3.71:1433         TCP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     62  2019-01-02T05:30:01  5.101.40.81->138.68.3.71:22             TCP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     62  2019-01-02T05:37:47  31.163.158.140->138.68.3.71:23          TCP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     62  2019-01-02T06:00:44  71.6.232.4->138.68.3.71:80              TCP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     62  2019-01-02T06:20:16  58.48.32.199->138.68.3.71:23            TCP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     62  2019-01-02T06:23:44  92.53.76.213->138.68.3.71:3389          TCP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     62  2019-01-02T06:35:28  37.49.228.121->138.68.3.71:80           TCP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     62  2019-01-02T06:39:50  5.141.67.237->138.68.3.71:23            TCP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     62  2019-01-02T06:49:00  185.244.25.216->138.68.3.71:23          TCP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     60  2019-01-02T03:54:44  37.49.231.178->138.68.3.71:5060         UDP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     60  2019-01-02T03:54:44  37.49.231.178->138.68.3.71:5060         UDP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     60  2019-01-02T04:08:55  185.53.91.29->138.68.3.71:5060          UDP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     60  2019-01-02T04:18:50  185.53.91.55->138.68.3.71:5060          UDP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     60  2019-01-02T05:28:00  185.53.91.65->138.68.3.71:5060          UDP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     60  2019-01-02T05:50:19  37.49.231.72->138.68.3.71:5060          UDP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     60  2019-01-02T06:19:47  185.53.91.55->138.68.3.71:5060          UDP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     58  2019-01-02T06:50:05  46.100.43.82->138.68.3.71:445           TCP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     55  2019-01-02T04:06:39  120.52.152.16->138.68.3.71:17           TCP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     55  2019-01-02T04:27:08  66.240.236.119->138.68.3.71:82          TCP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     55  2019-01-02T04:40:52  88.202.190.148->138.68.3.71:636         TCP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     55  2019-01-02T04:48:08  184.105.139.67->138.68.3.71:161         UDP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     55  2019-01-02T05:15:00  120.52.152.16->138.68.3.71:70           TCP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     55  2019-01-02T05:43:18  185.244.25.167->138.68.3.71:123         UDP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     55  2019-01-02T06:25:43  80.211.172.233->138.68.3.71:81          TCP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     55  2019-01-02T06:31:43  61.219.11.151->138.68.3.71:21           TCP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+
+----------------------------------------------------------------------------------------------------
+Log only (136 alerts)
+----------------------------------------------------------------------------------------------------
+  Score  Timestamp            Src -> Dst:Port                         Proto  Sev  Asset (crit/exposure)
+  ----------------------------------------------------------------------------------------------
+     52  2019-01-02T03:53:24  80.211.246.121->138.68.3.71:5060        UDP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     52  2019-01-02T03:53:24  80.211.246.121->138.68.3.71:5060        UDP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     52  2019-01-02T03:53:24  80.211.246.121->138.68.3.71:5060        UDP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     52  2019-01-02T03:53:35  92.63.194.33->138.68.3.71:58800         TCP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     52  2019-01-02T03:53:35  92.63.194.33->138.68.3.71:58800         TCP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     52  2019-01-02T03:53:35  92.63.194.33->138.68.3.71:58800         TCP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     52  2019-01-02T03:54:37  185.176.27.6->138.68.3.71:40498         TCP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     52  2019-01-02T03:54:44  37.49.231.178->138.68.3.71:5060         UDP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     52  2019-01-02T03:54:44  37.49.231.178->138.68.3.71:5060         UDP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     52  2019-01-02T03:54:44  37.49.231.178->138.68.3.71:5060         UDP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     52  2019-01-02T03:54:44  37.49.231.178->138.68.3.71:5060         UDP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     52  2019-01-02T03:56:51  176.119.4.12->138.68.3.71:48968         TCP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     52  2019-01-02T03:57:27  198.108.67.99->138.68.3.71:3792         TCP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     52  2019-01-02T03:59:10  185.176.27.58->138.68.3.71:38046        TCP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     52  2019-01-02T04:00:37  194.28.115.243->138.68.3.71:18933       TCP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     52  2019-01-02T04:00:56  185.176.27.38->138.68.3.71:2177         TCP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     52  2019-01-02T04:03:38  194.28.115.245->138.68.3.71:33897       TCP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     52  2019-01-02T04:03:43  185.211.245.157->138.68.3.71:20016      TCP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     52  2019-01-02T04:04:30  176.119.4.73->138.68.3.71:9503          TCP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     52  2019-01-02T04:05:38  185.253.157.100->138.68.3.71:8545       TCP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     52  2019-01-02T04:05:59  176.119.4.29->138.68.3.71:50126         TCP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     52  2019-01-02T04:08:12  185.176.27.50->138.68.3.71:63772        TCP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     52  2019-01-02T04:08:55  185.53.91.29->138.68.3.71:5060          UDP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     52  2019-01-02T04:08:55  185.53.91.29->138.68.3.71:5060          UDP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     52  2019-01-02T04:14:21  185.176.27.62->138.68.3.71:29752        TCP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     52  2019-01-02T04:15:21  82.202.209.155->138.68.3.71:63389       TCP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     52  2019-01-02T04:17:09  176.119.4.51->138.68.3.71:50277         TCP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     52  2019-01-02T04:17:43  185.211.245.168->138.68.3.71:10020      TCP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     52  2019-01-02T04:18:50  185.53.91.55->138.68.3.71:5060          UDP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     52  2019-01-02T04:18:50  185.53.91.55->138.68.3.71:5060          UDP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     52  2019-01-02T04:19:43  176.119.4.50->138.68.3.71:6073          TCP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     52  2019-01-02T04:21:35  185.176.27.98->138.68.3.71:12383        TCP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     52  2019-01-02T04:24:12  185.255.31.6->138.68.3.71:22222         TCP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     52  2019-01-02T04:24:49  198.108.67.100->138.68.3.71:6161        TCP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     52  2019-01-02T04:30:44  185.176.27.2->138.68.3.71:24382         TCP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     52  2019-01-02T04:31:20  185.176.27.102->138.68.3.71:63917       TCP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     52  2019-01-02T04:31:42  5.188.206.22->138.68.3.71:16000         TCP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     52  2019-01-02T04:31:42  5.188.206.22->138.68.3.71:16000         TCP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     52  2019-01-02T04:31:42  5.188.206.22->138.68.3.71:16000         TCP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     52  2019-01-02T04:33:04  176.119.4.49->138.68.3.71:12724         TCP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     52  2019-01-02T04:33:05  176.119.4.35->138.68.3.71:25699         TCP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     52  2019-01-02T04:40:37  176.119.4.18->138.68.3.71:6956          TCP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     52  2019-01-02T04:40:50  198.108.67.78->138.68.3.71:8446         TCP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     52  2019-01-02T04:41:21  92.63.194.28->138.68.3.71:60900         TCP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     52  2019-01-02T04:41:21  92.63.194.28->138.68.3.71:60900         TCP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     52  2019-01-02T04:41:21  92.63.194.28->138.68.3.71:60900         TCP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     52  2019-01-02T04:44:17  109.248.9.13->138.68.3.71:39163         TCP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     52  2019-01-02T04:46:28  92.53.76.213->138.68.3.71:33890         TCP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     52  2019-01-02T04:46:58  185.176.27.246->138.68.3.71:6471        TCP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     52  2019-01-02T04:50:18  176.119.4.9->138.68.3.71:14708          TCP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     52  2019-01-02T04:57:04  176.119.4.77->138.68.3.71:6877          TCP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     52  2019-01-02T04:59:55  91.245.36.26->138.68.3.71:8291          TCP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     52  2019-01-02T05:08:09  198.108.67.51->138.68.3.71:8045         TCP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     52  2019-01-02T05:11:00  176.119.4.11->138.68.3.71:3815          TCP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     52  2019-01-02T05:11:08  176.119.4.22->138.68.3.71:13389         TCP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     52  2019-01-02T05:12:54  88.214.26.54->138.68.3.71:36012         TCP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     52  2019-01-02T05:16:06  194.28.115.245->138.68.3.71:19999       TCP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     52  2019-01-02T05:17:55  176.119.4.37->138.68.3.71:13976         TCP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     52  2019-01-02T05:18:13  194.28.115.243->138.68.3.71:4100        TCP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     52  2019-01-02T05:19:47  78.128.112.98->138.68.3.71:23383        TCP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     52  2019-01-02T05:19:47  78.128.112.98->138.68.3.71:23383        TCP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     52  2019-01-02T05:19:47  78.128.112.98->138.68.3.71:23383        TCP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     52  2019-01-02T05:20:54  185.255.31.6->138.68.3.71:1082          TCP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     52  2019-01-02T05:22:04  185.176.27.34->138.68.3.71:27609        TCP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     52  2019-01-02T05:22:42  82.202.197.192->138.68.3.71:5089        TCP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     52  2019-01-02T05:22:53  88.214.26.54->138.68.3.71:36021         TCP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     52  2019-01-02T05:24:01  176.119.4.12->138.68.3.71:48969         TCP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     52  2019-01-02T05:25:07  185.176.27.6->138.68.3.71:40369         TCP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     52  2019-01-02T05:26:24  37.49.231.125->138.68.3.71:8030         TCP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     52  2019-01-02T05:27:00  185.176.27.246->138.68.3.71:14338       TCP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     52  2019-01-02T05:27:26  185.176.27.102->138.68.3.71:63918       TCP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     52  2019-01-02T05:27:44  31.192.108.68->138.68.3.71:33098        TCP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     52  2019-01-02T05:27:44  31.192.108.68->138.68.3.71:33098        TCP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     52  2019-01-02T05:27:44  31.192.108.68->138.68.3.71:33098        TCP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     52  2019-01-02T05:28:00  185.53.91.65->138.68.3.71:5060          UDP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     52  2019-01-02T05:28:00  185.53.91.65->138.68.3.71:5060          UDP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     52  2019-01-02T05:28:17  92.63.194.38->138.68.3.71:60700         TCP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     52  2019-01-02T05:28:17  92.63.194.38->138.68.3.71:60700         TCP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     52  2019-01-02T05:28:17  92.63.194.38->138.68.3.71:60700         TCP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     52  2019-01-02T05:30:07  176.119.4.50->138.68.3.71:6075          TCP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     52  2019-01-02T05:34:01  176.119.4.22->138.68.3.71:53389         TCP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     52  2019-01-02T05:34:13  176.119.4.29->138.68.3.71:50127         TCP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     52  2019-01-02T05:34:57  109.248.9.13->138.68.3.71:39164         TCP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     52  2019-01-02T05:38:15  176.119.4.39->138.68.3.71:9069          TCP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     52  2019-01-02T05:39:02  71.6.199.23->138.68.3.71:5683           UDP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     52  2019-01-02T05:39:38  194.28.115.243->138.68.3.71:3350        TCP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     52  2019-01-02T05:44:51  185.176.27.62->138.68.3.71:29753        TCP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     52  2019-01-02T05:46:37  176.119.4.9->138.68.3.71:14707          TCP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     52  2019-01-02T05:46:47  185.176.27.58->138.68.3.71:38045        TCP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     52  2019-01-02T05:47:55  176.119.4.77->138.68.3.71:6362          TCP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     52  2019-01-02T05:50:19  37.49.231.72->138.68.3.71:5060          UDP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     52  2019-01-02T05:50:19  37.49.231.72->138.68.3.71:5060          UDP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     52  2019-01-02T05:50:36  176.119.4.28->138.68.3.71:8380          TCP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     52  2019-01-02T05:51:27  92.63.194.33->138.68.3.71:60600         TCP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     52  2019-01-02T05:51:27  92.63.194.33->138.68.3.71:60600         TCP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     52  2019-01-02T05:51:27  92.63.194.33->138.68.3.71:60600         TCP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     52  2019-01-02T05:54:11  80.82.77.33->138.68.3.71:3542           TCP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     52  2019-01-02T05:54:26  92.53.90.179->138.68.3.71:5950          TCP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     52  2019-01-02T05:54:26  92.53.90.179->138.68.3.71:5950          TCP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     52  2019-01-02T05:54:26  92.53.90.179->138.68.3.71:5950          TCP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     52  2019-01-02T05:55:29  176.119.4.35->138.68.3.71:25701         TCP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     52  2019-01-02T05:55:35  92.63.194.18->138.68.3.71:9488          TCP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     52  2019-01-02T05:55:35  92.63.194.18->138.68.3.71:9488          TCP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     52  2019-01-02T05:55:35  92.63.194.18->138.68.3.71:9488          TCP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     52  2019-01-02T05:58:58  185.176.27.2->138.68.3.71:21443         TCP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     52  2019-01-02T06:06:09  194.28.115.245->138.68.3.71:10086       TCP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     52  2019-01-02T06:06:55  176.119.4.73->138.68.3.71:22683         TCP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     52  2019-01-02T06:09:55  185.211.245.168->138.68.3.71:10015      TCP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     52  2019-01-02T06:11:36  185.253.157.100->138.68.3.71:8545       TCP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     52  2019-01-02T06:12:02  176.119.4.37->138.68.3.71:13975         TCP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     52  2019-01-02T06:15:30  89.248.167.131->138.68.3.71:5008        UDP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     52  2019-01-02T06:17:09  109.248.9.14->138.68.3.71:12879         TCP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     52  2019-01-02T06:17:43  176.119.4.18->138.68.3.71:6924          TCP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     52  2019-01-02T06:18:13  92.53.90.212->138.68.3.71:5986          TCP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     52  2019-01-02T06:18:13  92.53.90.212->138.68.3.71:5986          TCP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     52  2019-01-02T06:18:13  92.53.90.212->138.68.3.71:5986          TCP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     52  2019-01-02T06:18:29  185.176.27.14->138.68.3.71:21362        TCP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     52  2019-01-02T06:18:47  185.253.157.102->138.68.3.71:8545       TCP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     52  2019-01-02T06:19:47  185.53.91.55->138.68.3.71:5060          UDP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     52  2019-01-02T06:19:47  185.53.91.55->138.68.3.71:5060          UDP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     52  2019-01-02T06:20:27  88.202.190.157->138.68.3.71:3268        TCP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     52  2019-01-02T06:20:41  185.176.27.30->138.68.3.71:17663        TCP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     52  2019-01-02T06:22:06  185.176.27.50->138.68.3.71:63773        TCP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     52  2019-01-02T06:22:44  185.176.27.26->138.68.3.71:50372        TCP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     52  2019-01-02T06:28:34  185.176.27.246->138.68.3.71:29251       TCP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     52  2019-01-02T06:32:42  185.255.31.78->138.68.3.71:13386        TCP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     52  2019-01-02T06:41:41  176.119.4.26->138.68.3.71:27844         TCP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     52  2019-01-02T06:42:23  194.28.115.243->138.68.3.71:33923       TCP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     52  2019-01-02T06:42:41  92.63.194.43->138.68.3.71:24419         TCP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     52  2019-01-02T06:42:41  92.63.194.43->138.68.3.71:24419         TCP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     52  2019-01-02T06:42:41  92.63.194.43->138.68.3.71:24419         TCP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     52  2019-01-02T06:42:52  138.68.3.71->198.199.99.226:80          TCP    3    Unknown asset(unknown/unknown)
+      reason: none
+
+     52  2019-01-02T06:44:31  198.108.67.90->138.68.3.71:9026         TCP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     52  2019-01-02T06:45:16  185.176.27.6->138.68.3.71:6473          TCP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     52  2019-01-02T06:49:40  185.176.27.62->138.68.3.71:29754        TCP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+     52  2019-01-02T06:50:03  1.169.38.217->138.68.3.71:8181          TCP    2    Unknown asset(unknown/unknown)
+      reason: none
+
+

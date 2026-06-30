@@ -1,0 +1,32 @@
+assets:
+  # Widely used private network ranges in enterprise environments.
+  - name: "Corporate Private Network"
+    cidr: "10.0.0.0/8"
+    criticality: "high"
+    exposure: "internal"
+
+  - name: "Branch Office / Remote Network"
+    cidr: "172.16.0.0/12"
+    criticality: "medium"
+    exposure: "internal"
+
+  - name: "Office LAN / User Subnet"
+    cidr: "192.168.0.0/16"
+    criticality: "low"
+    exposure: "internal"
+
+  # Common DMZ and public-facing service ranges inside enterprise clouds.
+  - name: "DMZ / Public Services"
+    cidr: "10.1.0.0/16"
+    criticality: "high"
+    exposure: "internet-facing"
+
+  - name: "Data Center / Database Tier"
+    cidr: "10.2.0.0/16"
+    criticality: "critical"
+    exposure: "internal"
+
+  - name: "Management / Administration VLAN"
+    cidr: "10.3.0.0/16"
+    criticality: "high"
+    exposure: "internal"
