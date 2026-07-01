@@ -1,4 +1,4 @@
-# SuReader
+# suReader
 
 A command-line tool for analysing Suricata EVE JSON alert logs.
 
@@ -179,3 +179,11 @@ in the `find_suspicious_activity()` function.
 
 ---
 
+## License
+
+This project is licensed under the GNU General Public License v2.0 — see
+[LICENSE](./LICENSE) for details.
+
+
+
+---
