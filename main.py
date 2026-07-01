@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-EVE Analyzer - A CLI tool for analyzing Suricata EVE JSON alert logs.
+suReader - A CLI tool for analyzing Suricata EVE JSON alert logs.
 
 Usage:
     python main.py summary    elogs/eve.json
@@ -48,8 +48,8 @@ TIER_REVIEW   = 25
 
 def iter_alerts(log_file):
     """
-    Generator: yield one alert event at a time without loading the
-    whole file into memory. Uses an 8MB read buffer for performance.
+    The generator yields one alert event at a time without loading the
+    whole file into memory while using an 8MB read buffer for performance.
     """
     try:
         with io.open(log_file, "r", encoding="utf-8", buffering=READ_BUFFER_BYTES) as f:
