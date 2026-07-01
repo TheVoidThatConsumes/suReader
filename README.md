@@ -1,4 +1,4 @@
-# suReader
+# SuReader
 
 A command-line tool for analysing Suricata EVE JSON alert logs.
 
@@ -15,7 +15,8 @@ architecture — the file is read once and never fully loaded into memory.
 | `top-ips` | Top source and destination IPs by alert count |
 | `suspicious` | IPs flagged for port scanning, brute-force, or automated scanning behaviour |
 | `search` | Filter alerts by IP address or signature keyword |
-| `report` | Full combined output of all three analysis views |
+| `triage` | Prioritises alerts into High/Medium/Low tiers using CIDR-based asset scoring |
+| `report` | Full combined output of all analysis views |
 
 All commands support `--export` to save the output as a `.txt` file in the `reports/` folder.
 
@@ -24,7 +25,7 @@ All commands support `--export` to save the output as a `.txt` file in the `repo
 ## Requirements
 
 - Python 3.10 or higher
-- No external dependencies — standard library only
+- `pyyaml` (required for the `triage` command's asset config) — install with `pip install pyyaml`
 
 ---
 
@@ -56,6 +57,7 @@ python main.py top-ips    elogs/conference.json --count 10
 python main.py suspicious elogs/honeypot.json
 python main.py search     elogs/honeypot.json --ip 192.168.1.5
 python main.py search     elogs/conference.json --signature "ET SCAN"
+python main.py triage     elogs/honeypot.json --assets assets.yaml
 python main.py report     elogs/honeypot.json
 ```
 
@@ -179,11 +181,40 @@ in the `find_suspicious_activity()` function.
 
 ---
 
+## Triage: asset-based alert scoring
+
+The `triage` command sorts alerts into **High / Medium / Low** priority
+tiers, factoring in how critical the destination asset is rather than
+treating every alert equally.
+
+It expects a YAML file (`--assets`) describing your network's CIDR ranges
+and their criticality, e.g.:
+
+```yaml
+assets:
+  - cidr: 10.0.0.0/24
+    criticality: high     # e.g. domain controllers, servers
+  - cidr: 10.0.1.0/24
+    criticality: medium   # e.g. internal workstations
+  - cidr: 0.0.0.0/0
+    criticality: low      # default/unmatched traffic
+```
+
+Each alert's final priority score combines multiple factors — including
+alert severity and the criticality of the matched destination CIDR block —
+so an alert hitting a high-value asset is surfaced above one hitting a
+low-value or unclassified host, even if the raw Suricata severity is the same.
+
+---
+
 ## License
 
 This project is licensed under the GNU General Public License v2.0 — see
 [LICENSE](./LICENSE) for details.
 
+## Author
 
+Built by [David Obi](https://github.com/TheVoidThatConsumes) as part of a
+cybersecurity/DevSecOps portfolio.
 
 ---
