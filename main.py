@@ -84,6 +84,12 @@ def iter_alerts(log_file):
     except FileNotFoundError:
         print(f"[!] File not found: {log_file}", file=sys.stderr)
         sys.exit(1)
+    except IsADirectoryError:
+        print(f"[!] Expected a file but got a directory: {log_file}", file=sys.stderr)
+        sys.exit(1)
+    except (PermissionError, OSError) as e:
+        print(f"[!] Could not read {log_file}: {e}", file=sys.stderr)
+        sys.exit(1)
 
 
 # ---------------------------------------------------------------------------
@@ -175,7 +181,7 @@ def find_suspicious_activity(data, port_scan_threshold=10, signature_threshold=5
                 "detail": f'Triggered "{top_sig}" {top_count} times',
             })
 
-        if distinct >= signature_threshold and total >= signature_threshold:
+        if distinct >= signature_threshold:
             findings.append({
                 "type": "Broad alert diversity (possible automated scanner)", "src_ip": ip,
                 "detail": f"Triggered {distinct} different alert types ({total} alerts total)",
@@ -236,11 +242,31 @@ def load_assets(assets_file=DEFAULT_ASSETS_FILE):
         )
         return []
 
-    with open(assets_file, "r", encoding="utf-8") as f:
-        raw = yaml.safe_load(f) or {}
+    try:
+        with open(assets_file, "r", encoding="utf-8") as f:
+            raw = yaml.safe_load(f) or {}
+    except yaml.YAMLError as e:
+        print(f"[!] Could not parse {assets_file} (invalid YAML): {e}", file=sys.stderr)
+        print("[!] Continuing with defaults for all IPs.", file=sys.stderr)
+        return []
+    except OSError as e:
+        print(f"[!] Could not read {assets_file}: {e}", file=sys.stderr)
+        return []
 
     raw_assets = raw.get("assets", [])
     networks   = []
+
+    def _normalize(entry, key, valid, default, label):
+        """Lowercase/strip a criticality or exposure value and warn on unrecognized input."""
+        value = str(entry.get(key, default)).strip().lower()
+        if value not in valid:
+            print(
+                f"[!] Unrecognized {label} '{entry.get(key)}' — treating as '{default}'. "
+                f"Expected one of: {', '.join(valid)}",
+                file=sys.stderr,
+            )
+            return default
+        return value
 
     # Handle list-style (CIDR-based) assets.yml
     if isinstance(raw_assets, list):
@@ -251,8 +277,8 @@ def load_assets(assets_file=DEFAULT_ASSETS_FILE):
                     networks.append({
                         "network":     ipaddress.IPv4Network(cidr, strict=False),
                         "name":        entry.get("name", cidr),
-                        "criticality": entry.get("criticality", "low"),
-                        "exposure":    entry.get("exposure", "internal"),
+                        "criticality": _normalize(entry, "criticality", CRITICALITY_SCORES, "low", "criticality"),
+                        "exposure":    _normalize(entry, "exposure", EXPOSURE_SCORES, "internal", "exposure"),
                     })
                 except ValueError:
                     print(f"[!] Invalid CIDR in assets.yml: {cidr}", file=sys.stderr)
@@ -264,8 +290,8 @@ def load_assets(assets_file=DEFAULT_ASSETS_FILE):
                 networks.append({
                     "network":     ipaddress.IPv4Network(f"{ip}/32", strict=False),
                     "name":        info.get("name", ip),
-                    "criticality": info.get("criticality", "low"),
-                    "exposure":    info.get("exposure", "internal"),
+                    "criticality": _normalize(info, "criticality", CRITICALITY_SCORES, "low", "criticality"),
+                    "exposure":    _normalize(info, "exposure", EXPOSURE_SCORES, "internal", "exposure"),
                 })
             except ValueError:
                 print(f"[!] Invalid IP in assets.yml: {ip}", file=sys.stderr)
@@ -340,7 +366,7 @@ def score_alert(event, networks, flagged_ips):
     sev_pts = SEVERITY_SCORES.get(severity, 0)
     score += sev_pts
     if sev_pts > 0:
-        label = SEVERITY_LABELS.get(severity, str(severity))
+        label = SEVERITY_LABELS.get(severity, str(severity) if severity is not None else "Unclassified")
         reasons.append(f"Suricata severity={label} (+{sev_pts})")
 
     # Factor 4: behavioural correlation
@@ -482,6 +508,9 @@ def format_triage(tiers, max_per_tier=20):
     """
     Format the triage report. Every alert appears in exactly one tier.
     No alerts are discarded — LOG ONLY entries are still fully listed.
+
+    Pass max_per_tier=None to render every entry in every tier with no
+    cap (used when writing the full report out to an export file).
     """
     lines = []
     lines.append("=" * 60)
@@ -509,7 +538,7 @@ def format_triage(tiers, max_per_tier=20):
             lines.append("")
             continue
 
-        shown = entries[:max_per_tier]
+        shown = entries if max_per_tier is None else entries[:max_per_tier]
         for score, event, reasons in shown:
             sig = event.get("alert", {}).get("signature", "Unknown signature")
             src = event.get("src_ip", "?")
@@ -536,7 +565,14 @@ def format_triage(tiers, max_per_tier=20):
 # Output
 # ---------------------------------------------------------------------------
 
-def output_lines(lines, export_name=None):
+def output_lines(lines, export_name=None, export_lines=None):
+    """
+    Print `lines` to the terminal. If exporting, write `export_lines`
+    to the report file instead (falling back to `lines` if not given).
+
+    This lets a command show a truncated/summarized view on screen while
+    still exporting the complete, untruncated version to disk.
+    """
     text = "\n".join(lines)
     print(text)
 
@@ -546,9 +582,10 @@ def output_lines(lines, export_name=None):
             timestamp   = datetime.now().strftime("%Y%m%d_%H%M%S")
             export_name = f"report_{timestamp}.txt"
         export_path = os.path.join(REPORTS_DIR, export_name)
+        export_text = "\n".join(export_lines) if export_lines is not None else text
         try:
             with open(export_path, "w", encoding="utf-8") as f:
-                f.write(text + "\n")
+                f.write(export_text + "\n")
             print(f"\n[+] Report saved to {export_path}")
         except OSError as e:
             print(f"[!] Failed to write report: {e}", file=sys.stderr)
@@ -619,11 +656,16 @@ def main():
         return
 
     if args.command == "triage":
+        if args.max_per_tier <= 0:
+            print("[!] --max-per-tier must be a positive integer.", file=sys.stderr)
+            sys.exit(1)
         tiers = triage_alerts(args.log_file, assets_file=args.assets)
-        output_lines(
-            format_triage(tiers, max_per_tier=args.max_per_tier),
-            args.export,
-        )
+        terminal_lines = format_triage(tiers, max_per_tier=args.max_per_tier)
+        # Exports always get the full, untruncated report regardless of
+        # what's capped on screen — otherwise "... N more, use --export"
+        # would be a broken promise.
+        full_lines = format_triage(tiers, max_per_tier=None) if args.export is not None else None
+        output_lines(terminal_lines, args.export, export_lines=full_lines)
         return
 
     data = analyze(args.log_file)
@@ -635,6 +677,9 @@ def main():
     if args.command == "summary":
         output_lines(format_summary(data), args.export)
     elif args.command == "top-ips":
+        if args.count <= 0:
+            print("[!] --count must be a positive integer.", file=sys.stderr)
+            sys.exit(1)
         output_lines(format_top_ips(data, n=args.count), args.export)
     elif args.command == "suspicious":
         output_lines(format_suspicious(data), args.export)
