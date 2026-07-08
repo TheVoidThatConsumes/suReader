@@ -206,15 +206,3 @@ so an alert hitting a high-value asset is surfaced above one hitting a
 low-value or unclassified host, even if the raw Suricata severity is the same.
 
 ---
-
-## License
-
-This project is licensed under the GNU General Public License v2.0 — see
-[LICENSE](./LICENSE) for details.
-
-## Author
-
-Built by [David Obi](https://github.com/TheVoidThatConsumes) as part of a
-cybersecurity/DevSecOps portfolio.
-
----
